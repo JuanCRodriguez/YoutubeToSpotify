@@ -1,0 +1,41 @@
+{
+  "name": "Youtube to Spotify",
+  "description": "Get current song playing on yt and search it on spotify",
+  "version": "1.0",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnsllySsgHP0Ocs58yueS6jxFvYYmxtIDaiYsbEEOvfYcFMaMnVt+IsAJkfuLkdBtJlp4x9G9LCNuEjzpQVE8mqud4QoH30JXLRNfRfF0SpajjkxGAemAQqQfKIH9hVXXRnHVl9R2zAVah6zd+ns8d85sCykXnTmJ4F4cLt7/zMbHyVVXwseKLxv6hU0mFMxo8D3UwmxgSNT+O+ymtpnMvk43d9zKT593szEFpv1lunZVgDHhGKccPj09Ci1jcSCe+LxSxiih03typ9RkWYWNDnyoCdnvKOa8LdoQU5NtwqFZUPJ2vtYpuOSnDQz+lvTSN7dwWKwUi3Arw9PlJsVTNwIDAQAB",
+  "permissions": [
+    "identity",
+    "tabs",
+    "activeTab",
+    "webNavigation",
+    "https://*.spotify.com/*",
+    "*://*.google.com/*",
+    "storage"
+  ],
+  "browser_action": {
+    "default_popup": "interface/popup.html",
+    "default_title": "Youtube to Spotify"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*.youtube.com/*"
+      ],
+      "all_frames": true,
+      "js": [
+        "src/content_script.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    "/interface/popup.html"
+  ],
+  "background": {
+    "scripts": [
+      "src/eventPage.js"
+    ],
+    "persistent": false
+  },
+  "manifest_version": 2
+}

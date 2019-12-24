@@ -1,0 +1,157 @@
+<html>
+<head><title>W3.CSS Template</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        html, body, h1, h2, h3, h4, h5 {
+            font-family: "Open Sans", sans-serif
+        }
+
+        body {
+            display: inline-block;
+            width: max-content;
+            /*min-width: available;*/
+            /*resize: revert;*/
+            /*max-height: 700px !important;*/
+            /*height: 900px;*/
+        }
+
+        #btnRetryQuery {
+            align-content: center;
+        }
+
+        input[type="range"] {
+            margin: inherit;
+            -webkit-appearance: none;
+            position: inherit;
+            overflow: hidden;
+            height: 10px;
+            width: auto;
+            cursor: pointer;
+            border-radius: 0; /* iOS */
+        }
+
+        ::-webkit-slider-runnable-track {
+            background: #ddd;
+        }
+
+        ::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px; /* 1 */
+            height: 40px;
+            background: #fff;
+            box-shadow: -100vw 0 0 100vw #4d636f;
+            border: 0px solid #999; /* 1 */
+        }
+
+        ::-moz-range-track {
+            height: 40px;
+            background: #ddd;
+        }
+
+        ::-moz-range-thumb {
+            background: #fff;
+            height: 40px;
+            width: 20px;
+            border: 3px solid #999;
+            border-radius: 0 !important;
+            box-shadow: -100vw 0 0 100vw dodgerblue;
+            box-sizing: border-box;
+        }
+
+        ::-ms-fill-lower {
+            background: dodgerblue;
+        }
+
+        ::-ms-thumb {
+            background: #fff;
+            border: 2px solid #999;
+            height: 40px;
+            width: 20px;
+            box-sizing: border-box;
+        }
+
+        ::-ms-ticks-after {
+            display: none;
+        }
+
+        ::-ms-ticks-before {
+            display: none;
+        }
+
+        ::-ms-track {
+            background: #ddd;
+            color: transparent;
+            height: 40px;
+            border: none;
+        }
+
+        ::-ms-tooltip {
+            display: none;
+        }
+    </style>
+</head>
+<body class="w3-theme-l0 w3-container w3-padding w3-show-inline-block">
+    <div id="divNotLogged" class="w3-card w3-round w3-white w3-padding" style="display: none">
+        <p class="w3-container" style="">
+            <i class="fa fa-exclamation-triangle fa-fw w3-text-theme"></i>
+            This extension needs a token of spotify api to work, please login to generate one.
+            <br>
+            <b>NOTE: </b> this app wont save your spotify user credentials
+        </p>
+        <button id="btnLaunchOauth" class="w3-button w3-theme-d2 w3-margin-bottom w3-center">Iniciar sesion</button>
+    </div>
+    <div id="divTokenExpired" style="display: none">
+        <button id="btnRefreshToken" class="w3-button w3-theme-d2 w3-margin-bottom">Refresh Token</button>
+    </div>
+    <div id="divloggedIn" class="w3-card w3-round w3-white w3-padding" style="display: none">
+        <div class="w3-container">
+            <h4 class="w3-center" id="lblName"></h4>
+            <p class="w3-center">
+                <img id="avatar" src="" class="w3-circle"
+                     style="height:106px;width:106px" alt="Avatar">
+            </p>
+            <hr>
+            <div class="w3-padding w3-centered w3-center">
+            <button id="btnGetSong" class="w3-button w3-centered w3-theme-d2">Automated search</button>
+            <button id="btnManualSearch" class="w3-button w3-centered w3-theme-d2">Manual search</button>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div id="divSongFound" class="w3-card w3-round w3-white w3-padding" style="display: none">
+        <div class="w3-container">
+            <p class="w3-container">
+                <img id="imgSong" src="" class="w3-left w3-margin-right"
+                     style="height:106px;width:106px" alt="Song found">
+                <i class="fa fa-play fa-fw w3-text-theme" id="btnPlay"></i>
+                <a id="lblSongFound"></a><br>
+                <i id="btnMute" class="fa fa-volume-up fa-fw w3-text-theme"></i>
+                <input type="range" min=0 max=100 value=50 class="slider" id="volume">
+            <audio class="w3-block" id="audioPlayer" src=""></audio>
+            </p>
+            <hr>
+            <div class="w3-margin w3-container" id="divHoverPlaylist" style="display: none">
+                <button id="btnShowPlaylists" class="w3-button w3-theme-d2 w3-block w3-dropdown-click" title="Add to Playlist">Add to playlist <i class="fa fa-chevron-down" id="dropdownIcon"></i></button>
+                <div class="w3-hide w3-border w3-bar-item w3-text-blue-gray w3-align" id="divPlaylists" style="max-height: 125px;overflow: auto; width: min-content;">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div id="divSongNotFound" class="w3-card w3-round w3-white w3-padding" style="display: none;">
+        <p id="ErrSongNotFound" class="w3-container" style="display: none">
+            <i class="fa fa-exclamation-triangle fa-fw w3-text-theme"></i>
+            Automated search failed, please modify search query.
+        </p>
+        <p contenteditable="true" class="w3-border w3-padding" id="txtSongQuery"></p>
+        <button id="btnRetryQuery" class="w3-button w3-theme-d2">Retry</button>
+    </div>
+    <script src="popup.js"></script>
+    <script src="audioplayer.js"></script>
+</body>
+</html>
