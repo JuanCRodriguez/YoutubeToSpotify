@@ -146,10 +146,10 @@ function showManualSearch() {
 
 function addToPlaylist(e) {
     console.log(e);
-    if (confirm(`Do you want to add ${lblSongFound.textContent} to ${e.toElement.textContent}?`)) {
+    if (confirm(`Do you want to add ${lblSongFound.textContent} to ${e.currentTarget.textContent}?`)) {
         chrome.runtime.sendMessage({
             action: 'addToPlaylist',
-            idPlaylist: e.toElement.parentNode.id,
+            idPlaylist: e.currentTarget.id,
             songURI: lblSongFound.href
         }, function (response) {
             console.log(response);
